@@ -2,47 +2,39 @@ const mongoose = require('mongoose');
 const { User, Thought } = require('../models');
 const connectDB = require('../config/connection');
 
+// Sample data
+const users = [
+  { username: 'lernantino', email: 'lernantino@gmail.com' },
+  { username: 'amiko', email: 'amiko2k20@aol.com' }
+];
+
+const thoughts = [
+  { thoughtText: "Here's a cool thought...", username: 'lernantino' },
+  { thoughtText: "This is another thought!", username: 'amiko' }
+];
+
+// Connect to MongoDB
 connectDB();
 
+// Function to seed data
 const seedDatabase = async () => {
-  await mongoose.connection.db.dropDatabase();
+  try {
+    await Thought.deleteMany({});
+    await User.deleteMany({});
 
-  const users = await User.create([
-    {
-      username: "lernantino",
-      email: "lernantino@gmail.com"
-    },
-    {
-      username: "amiko",
-      email: "amiko2k20@aol.com"
-    }
-  ]);
+    const createdUsers = await User.insertMany(users);
+    thoughts.forEach((thought, index) => {
+      thought.userId = createdUsers[index % createdUsers.length]._id;
+    });
+    await Thought.insertMany(thoughts);
 
-  const thoughts = await Thought.create([
-    {
-      thoughtText: "Here's a cool thought...",
-      username: "lernantino",
-      reactions: [
-        {
-          reactionBody: "Wow, that's deep.",
-          username: "amiko"
-        }
-      ]
-    },
-    {
-      thoughtText: "I need coffee...",
-      username: "amiko",
-      reactions: [
-        {
-          reactionBody: "I prefer tea.",
-          username: "lernantino"
-        }
-      ]
-    }
-  ]);
-
-  console.log('Database seeded!');
-  process.exit(0);
+    console.log('Database seeded! 🌱');
+    process.exit(0);
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
 };
 
 seedDatabase();
+
