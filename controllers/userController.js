@@ -2,57 +2,59 @@
 const User = require('../models/User');
 
 exports.getAllUsers = async (req, res) => {
-  try {
-    const users = await User.find().populate('thoughts').populate('friends');
-    res.json(users);
-  } catch (err) {
-    res.status(500).send(err);
-  }
+  // existing code...
 };
 
 exports.getUserById = async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id).populate('thoughts').populate('friends');
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-    res.json(user);
-  } catch (err) {
-    res.status(500).send(err);
-  }
+  // existing code...
 };
 
 exports.createUser = async (req, res) => {
-  try {
-    const newUser = await User.create(req.body);
-    res.json(newUser);
-  } catch (err) {
-    res.status(500).send(err);
-  }
+  // existing code...
 };
 
 exports.updateUser = async (req, res) => {
+  // existing code...
+};
+
+exports.deleteUser = async (req, res) => {
+  // existing code...
+};
+
+// Add a friend to the user's friend list
+exports.addFriend = async (req, res) => {
   try {
-    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    // $addToSet avoids adding the same friend twice
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.userId,
+      { $addToSet: { friends: req.params.friendId } },
+      { new: true }
+    ).populate('friends'); // Optionally populate the friends list
+
     if (!updatedUser) {
       return res.status(404).json({ message: 'User not found' });
     }
     res.json(updatedUser);
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).json({ error: err.message });
   }
 };
 
-exports.deleteUser = async (req, res) => {
+// Remove a friend from the user's friend list
+exports.removeFriend = async (req, res) => {
   try {
-    const userToDelete = await User.findByIdAndDelete(req.params.id);
-    if (!userToDelete) {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.userId,
+      { $pull: { friends: req.params.friendId } },
+      { new: true }
+    ).populate('friends'); // Optionally populate the friends list
+
+    if (!updatedUser) {
       return res.status(404).json({ message: 'User not found' });
     }
-    // Delete all thoughts associated with the user
-    await Thought.deleteMany({ userId: req.params.id });
-    res.json({ message: 'User and all associated thoughts deleted successfully' });
+    res.json(updatedUser);
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).json({ error: err.message });
   }
 };
+

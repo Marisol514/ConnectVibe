@@ -9,8 +9,8 @@ const thoughtsController = {
       .sort({ createdAt: -1 })
       .then(dbThoughtData => res.json(dbThoughtData))
       .catch(err => {
-        console.log(err);
-        res.sendStatus(400);
+        console.error(err);
+        res.status(500).json({ error: 'Unable to fetch thoughts' });
       });
   },
 
@@ -21,14 +21,13 @@ const thoughtsController = {
       .select('-__v')
       .then(dbThoughtData => {
         if (!dbThoughtData) {
-          res.status(404).json({ message: 'No thought found with this id!' });
-          return;
+          return res.status(404).json({ message: 'No thought found with this id' });
         }
         res.json(dbThoughtData);
       })
       .catch(err => {
-        console.log(err);
-        res.sendStatus(400);
+        console.error(err);
+        res.status(400).json({ error: 'Error retrieving thought' });
       });
   },
 
@@ -44,12 +43,11 @@ const thoughtsController = {
       })
       .then(dbUserData => {
         if (!dbUserData) {
-          res.status(404).json({ message: 'No user found with this id!' });
-          return;
+          return res.status(404).json({ message: 'No user found with this id' });
         }
-        res.json({ message: 'Thought successfully created!' });
+        res.status(201).json({ message: 'Thought successfully created' });
       })
-      .catch(err => res.status(400).json(err));
+      .catch(err => res.status(400).json({ error: 'Failed to create thought' }));
   },
 
   // Update a thought
@@ -57,12 +55,11 @@ const thoughtsController = {
     Thought.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true, runValidators: true })
       .then(dbThoughtData => {
         if (!dbThoughtData) {
-          res.status(404).json({ message: 'No thought found with this id!' });
-          return;
+          return res.status(404).json({ message: 'No thought found with this id' });
         }
         res.json(dbThoughtData);
       })
-      .catch(err => res.status(400).json(err));
+      .catch(err => res.status(400).json({ error: 'Failed to update thought' }));
   },
 
   // Delete a thought
@@ -70,8 +67,7 @@ const thoughtsController = {
     Thought.findOneAndDelete({ _id: req.params.id })
       .then(dbThoughtData => {
         if (!dbThoughtData) {
-          res.status(404).json({ message: 'No thought found with this id!' });
-          return;
+          return res.status(404).json({ message: 'No thought found with this id' });
         }
         return User.findOneAndUpdate(
           { _id: dbThoughtData.userId },
@@ -80,9 +76,12 @@ const thoughtsController = {
         );
       })
       .then(dbUserData => {
-        res.json({ message: 'Thought successfully deleted!' });
+        if (!dbUserData) {
+          return res.status(404).json({ message: 'User not found' });
+        }
+        res.status(204).json({ message: 'Thought successfully deleted' });
       })
-      .catch(err => res.status(400).json(err));
+      .catch(err => res.status(400).json({ error: 'Failed to delete thought' }));
   },
 
   // Add a reaction to a thought
@@ -94,12 +93,11 @@ const thoughtsController = {
     )
     .then(dbThoughtData => {
       if (!dbThoughtData) {
-        res.status(404).json({ message: 'No thought found with this id!' });
-        return;
+        return res.status(404).json({ message: 'No thought found with this id' });
       }
       res.json(dbThoughtData);
     })
-    .catch(err => res.status(400).json(err));
+    .catch(err => res.status(400).json({ error: 'Failed to add reaction' }));
   },
 
   // Remove a reaction from a thought
@@ -111,14 +109,12 @@ const thoughtsController = {
     )
     .then(dbThoughtData => {
       if (!dbThoughtData) {
-        res.status(404).json({ message: 'No thought found with this id!' });
-        return;
+        return res.status(404).json({ message: 'No thought found with this id' });
       }
-      res.json(dbThoughtData);
+      res.json({ message: 'Reaction successfully removed' });
     })
-    .catch(err => res.status(400).json(err));
+    .catch(err => res.status(400).json({ error: 'Failed to remove reaction' }));
   }
 };
 
 module.exports = thoughtsController;
-
