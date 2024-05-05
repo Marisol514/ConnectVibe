@@ -49,7 +49,9 @@ exports.deleteUser = async (req, res) => {
     if (!userToDelete) {
       return res.status(404).json({ message: 'User not found' });
     }
-    res.json({ message: 'User deleted successfully' });
+    // Delete all thoughts associated with the user
+    await Thought.deleteMany({ userId: req.params.id });
+    res.json({ message: 'User and all associated thoughts deleted successfully' });
   } catch (err) {
     res.status(500).send(err);
   }

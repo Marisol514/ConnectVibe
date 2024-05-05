@@ -20,6 +20,7 @@ connectDB().then(() => {
   });
 }).catch(err => {
   console.error('Failed to connect to MongoDB', err);
+  process.exit(1);  // Terminate the process if the database connection fails
 });
 
 // Handle 404 responses for undefined routes
@@ -27,10 +28,11 @@ app.use((req, res) => {
     res.status(404).send("404: Page not found");
 });
 
-// Basic error handling middleware
+// Error handling middleware for handling and logging errors
 app.use((err, req, res, next) => {
-    console.error(err.stack);  // Log error stack for debugging
-    res.status(500).send('Something broke!');  // Send generic error message to client
+    console.error(err);  // Log error for debugging
+    res.status(500).send('Internal Server Error');  // Send generic error message to client
 });
+
 
 
