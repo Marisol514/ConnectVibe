@@ -41,6 +41,11 @@ const thoughtSchema = new Schema({
     type: String,
     required: true
   },
+  userId: {  // Adding userId to link thoughts directly to users
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
   reactions: [reactionSchema]
 }, {
   toJSON: { virtuals: true, getters: true },
@@ -53,5 +58,3 @@ thoughtSchema.virtual('reactionCount').get(function() {
 
 const Thought = mongoose.model('Thought', thoughtSchema);
 module.exports = Thought;
-
-

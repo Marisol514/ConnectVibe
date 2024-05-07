@@ -30,9 +30,6 @@ app.use((req, res) => {
 
 // Error handling middleware for handling and logging errors
 app.use((err, req, res, next) => {
-    console.error(err);  // Log error for debugging
-    res.status(500).send('Internal Server Error');  // Send generic error message to client
+    console.error(err.stack);  // Log error stack for more detailed debugging
+    res.status(err.status || 500).send(err.message || 'Internal Server Error');
 });
-
-
-

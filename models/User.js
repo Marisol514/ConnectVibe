@@ -27,6 +27,10 @@ const userSchema = new Schema({
   toObject: { virtuals: true }
 });
 
+// Indexes to improve performance
+userSchema.index({ username: 1 });  // Index on username for quick look-up
+userSchema.index({ email: 1 });     // Index on email for quick look-up
+
 userSchema.virtual('friendCount').get(function() {
   return this.friends.length;
 });

@@ -16,13 +16,13 @@ Follow these steps to set up the project locally  using bash:
 
 1 - Clone the Repository
 
-git clone https://github.com/your-username/your-repository.git
+- git clone git@github.com:Marisol514/ConnectVibe.git
 
-cd your-repository
+- cd your-repository
 
 2 - Install Dependencies
 
-Navigate to the project directory and run:
+- Navigate to the project directory and run:
 
 ```
 npm install
