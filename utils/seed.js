@@ -5,7 +5,8 @@ const connectDB = require('../config/connection');
 const users = [
   { username: 'lernantino', email: 'lernantino@gmail.com' },
   { username: 'amiko', email: 'amiko2k20@aol.com' },
-  { username: 'sophie', email: 'coolwolfie@aol.com' }
+  { username: 'sophie', email: 'coolwolfie@aol.com' },
+  { username: 'ricky', email: 'Ricky@gmail.com' }
 ];
 
 const thoughts = [
@@ -27,7 +28,12 @@ const thoughts = [
   {
     thoughtText: "I love walks and treats!",
     username: 'sophie',
-    reactions: []
+    reactions: [{ reactionBody: "who doesn't love treats sophie!", username: "amiko" }]
+  },
+  {
+    thoughtText: "I adore sophie!",
+    username: 'ricky',
+    reactions: [{ reactionBody: "Thanks ricky!", username: "Sophie"}]
   }
 ];
 

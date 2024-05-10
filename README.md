@@ -1,4 +1,12 @@
 # ConnectVibe
+
+## Challenge 18 NoSQL
+
+My challenge is to build an API for a social network web application where users can share their thoughts, react to friends’ thoughts, and create a friend list. I’ll use Express.js for routing, a MongoDB database, and the Mongoose ODM. In addition to using the Express.js and Mongoose packages, I'll may also optionally use a JavaScript date library of my choice or the native JavaScript Date object to format timestamps.
+
+No seed data is provided, so I’ll need to create my own data using Insomnia after you’ve created your API.
+Because this application won’t be deployed, I’ll also need to create a walkthrough video that demonstrates its functionality and all of the following acceptance criteria being met. I’ll need to submit a link to the video and add it to the README of my project.
+
  
 ## API Documentation
 This document provides a comprehensive guide on how to set up, run, and test the Social Network API. The API is designed to manage a social network system where users can post thoughts, react to thoughts, and add friends.
@@ -36,6 +44,7 @@ To start the server, run the following command in the terminal at the project ro
 
 ```
 npm start
+
 ```
 
 This will start the server on http://localhost:3001. The server must be running to handle API requests.
@@ -55,6 +64,7 @@ To test the API endpoints, follow these steps using Insomnia REST Client:
         - Method: GET
 
         - URL: http://localhost:3001/api/users
+
 
         - Click Send to view the response.
 
@@ -107,3 +117,33 @@ DELETE /api/users/:userId/friends/:friendId - Remove a friend
 ## Support
 
 For additional information or support, please contact Marisol514@gmail.com.
+
+## Links: 
+ 
+ GitHub: https://github.com/Marisol514/ConnectVibe
+
+ Recording Link: https://drive.google.com/file/d/1KSlipqw1R4MZJgBtAnd8ZQXWgFzrimEF/view
+
+ ## Resources
+
+MongoDB Documentation: https://www.mongodb.com/docs/
+
+Mongoose Documentation: https://mongoosejs.com/docs/guide.html
+
+MongoDB University: https://university.mongodb.com/
+
+Installing MongoDB on Various Systems: https://docs.mongodb.com/manual/administration/install-community/
+
+Node.js: https://nodejs.org/en/
+
+Express Documenatation: https://expressjs.com/en/starter/installing.html
+
+RESTful API with Node.js Express & MongoDB: https://www.freecodecamp.org/news/building-a-simple-crud-application-with-express-and-mongodb/
+
+https://www.toptal.com/express-js/nodejs-typescript-rest-api-pt-1
+
+Test with Insomnia: https://support.insomnia.rest/
+
+Java Script Date Library - Date-fns: https://date-fns.org/
+
+Java Script Date Library - Moments.js: https://momentjs.com/
